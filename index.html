@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JSON → AL Generator (Business Central)</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+  <!-- PrismJS -->
+  <link href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>JSON → AL Objects</h1>
+    <div class="sub">Microsoft Dynamics 365 Business Central</div>
+  </header>
+
+  <main class="app-main">
+    <section class="left">
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Input JSON</h2>
+          <div class="actions">
+            <button id="btnSample" class="btn ghost">Load Sample</button>
+          </div>
+        </div>
+        <textarea id="jsonInput" placeholder="json object..."></textarea>
+
+        <div class="options">
+          <div class="option">
+            <label for="baseId">Base Object ID</label>
+            <input type="number" id="baseId" value="50000" min="50000" step="1" />
+          </div>
+          <div class="toggles">
+            <label><input type="checkbox" id="optTable" checked /> Generate Table</label>
+            <label><input type="checkbox" id="optListPage" checked /> Generate List Page</label>
+            <label><input type="checkbox" id="optCardPage" checked /> Generate Card Page</label>
+            <label><input type="checkbox" id="optAutoPK" checked /> Create PK automatically if missing</label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="btnGenerate" class="btn primary">Generate AL</button>
+          <span id="statusMsg" class="status" aria-live="polite"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="right">
+      <div class="tabs">
+        <button class="tab active" data-target="tabTable">Table</button>
+        <button class="tab" data-target="tabList">List Page</button>
+        <button class="tab" data-target="tabCard">Card Page</button>
+      </div>
+
+      <div class="outputs">
+        <div id="tabTable" class="output active">
+          <div class="output-header">
+            <h2>AL Table</h2>
+            <div class="actions">
+              <button class="btn ghost" data-copy="table">Copy</button>
+            </div>
+          </div>
+          <pre class="code" contenteditable="true"><code id="alTable" class="language-al"></code></pre>
+        </div>
+
+        <div id="tabList" class="output">
+          <div class="output-header">
+            <h2>List Page</h2>
+            <div class="actions">
+              <button class="btn ghost" data-copy="list">Copy</button>
+            </div>
+          </div>
+          <pre class="code"><code id="alList" class="language-al"></code></pre>
+        </div>
+
+        <div id="tabCard" class="output">
+          <div class="output-header">
+            <h2>Card Page</h2>
+            <div class="actions">
+              <button class="btn ghost" data-copy="card">Copy</button>
+            </div>
+          </div>
+          <pre class="code"><code id="alCard" class="language-al"></code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <span>Made from devloper for devlopers.</span>
+    <span>By <a style="color: azure;" href="https://www.linkedin.com/in/taher-el-mehdi/">@TAHER-El-Mehdi</a></span>
+  </footer>
+
+  <!-- PrismJS core -->
+  <script src="https://unpkg.com/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://unpkg.com/prismjs@1.29.0/plugins/normalize-whitespace/prism-normalize-whitespace.min.js"></script>
+  <!-- Minimal AL language for Prism -->
+  <script>
+    (function(Prism){
+      Prism.languages.al = {
+        'comment': /\/\/.*|\/\*[\s\S]*?\*\//,
+        'string': {
+          pattern: /'(?:''|[^'])*'|"(?:\\.|[^"\\])*"/,
+          greedy: true
+        },
+        'number': /\b\d+(?:\.\d+)?\b/,
+        'keyword': /\b(?:table|page|fields|field|keys|key|PageType|CardPageId|SourceTable|ApplicationArea|Caption|DataClassification|layout|area|group|repeater|trigger|procedure|var|begin|end|true|false|List|Card|Date|DateTime|Integer|Decimal|Boolean|Text)\b/i,
+        'operator': /[:=;,.{}()[\]]/,
+        'identifier': /[A-Za-z_][A-Za-z0-9_]*\b/
+      };
+    }(Prism));
+  </script>
+  <script src="./script.js"></script>
+</body>
+</html>
